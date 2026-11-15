@@ -6,6 +6,7 @@ import {
   Globe,
   ZoomIn,
   Navigation,
+  Loader2,
 } from 'lucide-react';
 import { LolaParcel, ParcelEvaluation } from '../types/lunar';
 
@@ -33,6 +34,7 @@ export const LunarMap: React.FC<LunarMapProps> = ({
   const selectedBoxLayerRef = useRef<L.LayerGroup | null>(null);
 
   const [activeTileLayer, setActiveTileLayer] = useState<'lroc' | 'lola_color' | 'lola_bw'>('lroc');
+  const [isLayerLoading, setIsLayerLoading] = useState<boolean>(false);
 
   // Initialize Leaflet Map
   useEffect(() => {
@@ -78,14 +80,18 @@ export const LunarMap: React.FC<LunarMapProps> = ({
     const map = mapInstanceRef.current;
     if (!map) return;
 
+    setIsLayerLoading(true);
+
     map.eachLayer((layer) => {
       if (layer instanceof L.TileLayer) {
         map.removeLayer(layer);
       }
     });
 
+    let currentLayer: L.TileLayer;
+
     if (activeTileLayer === 'lroc') {
-      const lrocLayer = L.tileLayer(
+      currentLayer = L.tileLayer(
         'https://trek.nasa.gov/tiles/Moon/EQ/LRO_WAC_Mosaic_Global_303ppd/1.0.0/default/default028mm/{z}/{y}/{x}.jpg',
         {
           attribution: 'NASA / GSFC / ASU (LROC WAC)',
@@ -93,7 +99,6 @@ export const LunarMap: React.FC<LunarMapProps> = ({
           noWrap: true,
         }
       );
-      lrocLayer.addTo(map);
     } else {
       // USGS Planetary Maps WMS (Moon Simple Cylindrical) supports EPSG:4326
       // Custom TileLayer to accurately project WebMercator tiles into EPSG:4326 WMS bounding boxes
@@ -126,14 +131,31 @@ export const LunarMap: React.FC<LunarMapProps> = ({
       });
 
       // @ts-expect-error Leaflet dynamic extension
-      const usgsLayer = new UsgsWmsTileLayer('', {
+      currentLayer = new UsgsWmsTileLayer('', {
         attribution: 'USGS / NASA LOLA PDS',
         maxZoom: 12,
         noWrap: true,
       });
-
-      usgsLayer.addTo(map);
     }
+
+    currentLayer.on('load', () => {
+      setIsLayerLoading(false);
+    });
+
+    currentLayer.on('loading', () => {
+      setIsLayerLoading(true);
+    });
+
+    currentLayer.addTo(map);
+
+    // Fallback timer to hide loader if all cached tiles load silently
+    const timer = setTimeout(() => {
+      setIsLayerLoading(false);
+    }, 3500);
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, [activeTileLayer]);
 
   // Render Candidate Parcels and Markers
@@ -414,6 +436,18 @@ export const LunarMap: React.FC<LunarMapProps> = ({
             : 'Click map to evaluate any spot'}
         </span>
       </div>
+
+      {/* Layer Loading Spinner Overlay */}
+      {isLayerLoading && (
+        <div className="absolute inset-0 z-[999] pointer-events-none flex items-center justify-center bg-black/20 backdrop-blur-[1px] transition-opacity">
+          <div className="flex items-center space-x-2 bg-slate-900/90 text-white border border-slate-700 px-3.5 py-2 rounded-xl shadow-lg text-xs">
+            <Loader2 className="w-4 h-4 text-sky-400 animate-spin" />
+            <span className="font-medium tracking-wide">
+              Streaming NASA/USGS {activeTileLayer === 'lola_color' ? 'LOLA Color' : activeTileLayer === 'lola_bw' ? 'Relief' : 'LROC'} Tiles...
+            </span>
+          </div>
+        </div>
+      )}
 
       <div ref={mapContainerRef} className="w-full h-full min-h-[460px] z-0" />
     </div>

@@ -42,10 +42,10 @@ export const Footer: React.FC = () => {
             href="https://pradan.issdc.gov.in/"
             target="_blank"
             rel="noreferrer"
-            className="text-orange-600 dark:text-orange-400 hover:underline flex items-center space-x-0.5 transition"
+            className="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 flex items-center space-x-0.5 transition"
             title="ISRO Chandrayaan-2/3 Science Data (ISSDC / PRADAN)"
           >
-            <span>ISRO ISSDC (Chandrayaan-2/3)</span>
+            <span>ISRO ISSDC (Chandrayaan)</span>
             <ExternalLink className="w-2.5 h-2.5" />
           </a>
         </div>

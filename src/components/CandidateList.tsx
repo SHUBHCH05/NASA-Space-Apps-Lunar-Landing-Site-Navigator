@@ -126,8 +126,8 @@ export const CandidateList: React.FC<CandidateListProps> = ({
               <div className="flex items-center space-x-2">
                 <div className="flex items-center space-x-1">
                   {item.parcel.id === 'CHANDRAYAAN3_SHIV_SHAKTI' && (
-                    <span className="text-[10px] px-1.5 py-0.2 rounded bg-orange-100 dark:bg-orange-950/40 text-orange-700 dark:text-orange-300 font-semibold border border-orange-200 dark:border-orange-500/30">
-                      🇮🇳 ISRO
+                    <span className="text-[10px] px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium border border-slate-200 dark:border-slate-700">
+                      ISRO
                     </span>
                   )}
                   <span className="text-[10px] text-slate-400 w-4 text-right">

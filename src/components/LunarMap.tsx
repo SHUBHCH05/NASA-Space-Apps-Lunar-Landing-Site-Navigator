@@ -397,8 +397,8 @@ export const LunarMap: React.FC<LunarMapProps> = ({
               onClick={() => setActiveTileLayer('ohrc')}
               className={`px-2 py-0.5 rounded text-[11px] font-medium transition ${
                 activeTileLayer === 'ohrc'
-                  ? 'bg-orange-500 text-white'
-                  : 'text-slate-600 dark:text-slate-300 hover:text-orange-500 dark:hover:text-orange-400'
+                  ? 'bg-sky-500 text-white'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
               }`}
               title="ISRO Chandrayaan-2 High-Resolution Surface Mosaic"
             >

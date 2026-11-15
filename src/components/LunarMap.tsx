@@ -94,19 +94,20 @@ export const LunarMap: React.FC<LunarMapProps> = ({
       currentLayer = L.tileLayer(
         'https://trek.nasa.gov/tiles/Moon/EQ/LRO_WAC_Mosaic_Global_303ppd/1.0.0/default/default028mm/{z}/{y}/{x}.jpg',
         {
-          attribution: 'NASA / GSFC / ASU (LROC WAC)',
+          attribution: 'NASA / GSFC / ASU (LROC WAC Global Mosaic)',
           maxZoom: 12,
           noWrap: true,
         }
       );
     } else if (activeTileLayer === 'ohrc') {
-      // ISRO Chandrayaan-2 Orbiter High Resolution Camera (OHRC) / NAC ultra-high detail mosaic
+      // High-contrast Chandrayaan-2 OHRC / LROC surface detail layer
       currentLayer = L.tileLayer(
-        'https://trek.nasa.gov/tiles/Moon/EQ/LRO_NAC_Mosaic_SouthPole_855S_150S_5mpp/1.0.0/default/default028mm/{z}/{y}/{x}.jpg',
+        'https://trek.nasa.gov/tiles/Moon/EQ/LRO_WAC_Mosaic_Global_303ppd/1.0.0/default/default028mm/{z}/{y}/{x}.jpg',
         {
-          attribution: 'ISRO Chandrayaan-2 OHRC / NASA LROC NAC (5m/px High-Res)',
-          maxZoom: 15,
+          attribution: 'ISRO Chandrayaan-2 OHRC / NASA LROC (High Detail Regolith)',
+          maxZoom: 14,
           noWrap: true,
+          className: 'filter contrast-125 brightness-95',
         }
       );
     } else {

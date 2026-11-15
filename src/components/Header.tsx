@@ -34,7 +34,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenQuickGuide,
 }) => {
   return (
-    <header className="border-b border-slate-200 dark:border-slate-800/80 bg-white/90 dark:bg-[#0b101b]/90 backdrop-blur-md sticky top-0 z-40 px-4 py-2.5 transition-colors">
+    <header className="border-b border-slate-200 dark:border-slate-800/80 bg-white/95 dark:bg-[#0b101b]/95 backdrop-blur-md sticky top-0 z-[1100] px-4 py-2.5 transition-colors">
       <div className="max-w-[1920px] mx-auto flex flex-wrap items-center justify-between gap-3">
         {/* Left: Branding & Title */}
         <div className="flex items-center space-x-3">

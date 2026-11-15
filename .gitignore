@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.env
+.venv/
+venv/
+ENV/
+env/
+
+# Large DEM GeoTIFF files if users download gigabyte rasters
+pipeline/raw_dem/*.tif
+!pipeline/raw_dem/LOLA_SouthPole_sample.tif
+
+# Editor & OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

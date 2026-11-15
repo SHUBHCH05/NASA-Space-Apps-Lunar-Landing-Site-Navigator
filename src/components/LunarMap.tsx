@@ -35,6 +35,7 @@ export const LunarMap: React.FC<LunarMapProps> = ({
 
   const [activeTileLayer, setActiveTileLayer] = useState<'lroc' | 'lola_color' | 'lola_bw' | 'ohrc'>('lroc');
   const [isLayerLoading, setIsLayerLoading] = useState<boolean>(false);
+  const [currentZoom, setCurrentZoom] = useState<number>(6);
 
   // Initialize Leaflet Map
   useEffect(() => {
@@ -50,6 +51,10 @@ export const LunarMap: React.FC<LunarMapProps> = ({
       maxZoom: 18,
       zoomControl: false,
       attributionControl: false,
+    });
+
+    map.on('zoomend', () => {
+      setCurrentZoom(map.getZoom());
     });
 
     L.control.zoom({ position: 'topright' }).addTo(map);
@@ -455,7 +460,7 @@ export const LunarMap: React.FC<LunarMapProps> = ({
         </div>
       </div>
 
-      {/* Coordinate and Elevation status */}
+      {/* Coordinate, Elevation and Camera Altitude status */}
       <div className="absolute bottom-2.5 right-2.5 z-[1000] bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700/80 text-[11px] font-mono text-slate-700 dark:text-slate-200 pointer-events-none flex items-center space-x-2 shadow-sm">
         <Navigation className="w-3 h-3 text-sky-500 shrink-0" />
         <span>
@@ -467,10 +472,14 @@ export const LunarMap: React.FC<LunarMapProps> = ({
           <>
             <span className="text-slate-300 dark:text-slate-700">|</span>
             <span className="font-semibold text-emerald-600 dark:text-emerald-400">
-              Alt: {selectedParcel.mean_elevation_m > 0 ? `+${selectedParcel.mean_elevation_m}` : selectedParcel.mean_elevation_m}m
+              Terrain: {selectedParcel.mean_elevation_m > 0 ? `+${selectedParcel.mean_elevation_m}` : selectedParcel.mean_elevation_m}m
             </span>
           </>
         )}
+        <span className="text-slate-300 dark:text-slate-700">|</span>
+        <span className="text-sky-600 dark:text-sky-400 font-medium">
+          Camera Alt: ~{Math.round(2000 / Math.pow(2, Math.max(0, currentZoom - 1)))} km
+        </span>
       </div>
 
       {/* Layer Loading Spinner Overlay */}

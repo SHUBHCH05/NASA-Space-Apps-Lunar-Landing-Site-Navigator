@@ -338,78 +338,81 @@ export const LunarMap: React.FC<LunarMapProps> = ({
   return (
     <div className="relative w-full h-full min-h-[460px] rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800/80 bg-slate-900 shadow-sm flex flex-col transition-colors">
       {/* Top Map Action HUD */}
-      <div className="absolute top-2.5 left-2.5 z-[1000] flex flex-wrap items-center gap-1.5 pointer-events-auto">
-        {/* Layer Selector */}
-        <div className="flex items-center space-x-1 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-1.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700/80 text-xs shadow-sm">
-          <Layers className="w-3.5 h-3.5 text-slate-400 mr-0.5" />
+      <div className="absolute top-2.5 left-2.5 right-12 z-[500] flex flex-wrap items-center justify-between gap-1.5 pointer-events-none">
+        {/* Left Controls: Layers and Zoom */}
+        <div className="flex flex-wrap items-center gap-1.5 pointer-events-auto">
+          {/* Layer Selector */}
+          <div className="flex items-center space-x-1 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-1.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700/80 text-xs shadow-sm">
+            <Layers className="w-3.5 h-3.5 text-slate-400 mr-0.5" />
+            <button
+              onClick={() => setActiveTileLayer('lroc')}
+              className={`px-2 py-0.5 rounded text-[11px] font-medium transition ${
+                activeTileLayer === 'lroc'
+                  ? 'bg-sky-500 text-white'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              LROC WAC
+            </button>
+            <button
+              onClick={() => setActiveTileLayer('lola_color')}
+              className={`px-2 py-0.5 rounded text-[11px] font-medium transition ${
+                activeTileLayer === 'lola_color'
+                  ? 'bg-sky-500 text-white'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              LOLA Color
+            </button>
+            <button
+              onClick={() => setActiveTileLayer('lola_bw')}
+              className={`px-2 py-0.5 rounded text-[11px] font-medium transition ${
+                activeTileLayer === 'lola_bw'
+                  ? 'bg-sky-500 text-white'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              Relief
+            </button>
+          </div>
+
+          {/* Zoom Presets */}
           <button
-            onClick={() => setActiveTileLayer('lroc')}
-            className={`px-2 py-0.5 rounded text-[11px] font-medium transition ${
-              activeTileLayer === 'lroc'
-                ? 'bg-sky-500 text-white'
-                : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
-            }`}
+            onClick={handleZoomWholeMoon}
+            className="flex items-center space-x-1 bg-white/90 dark:bg-slate-900/90 text-slate-700 dark:text-slate-300 px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-700/80 text-xs shadow-sm transition hover:bg-slate-50 dark:hover:bg-slate-800"
+            title="Zoom out to whole Moon"
           >
-            LROC WAC
+            <Globe className="w-3.5 h-3.5 text-sky-500" />
+            <span>Whole Moon</span>
           </button>
-          <button
-            onClick={() => setActiveTileLayer('lola_color')}
-            className={`px-2 py-0.5 rounded text-[11px] font-medium transition ${
-              activeTileLayer === 'lola_color'
-                ? 'bg-sky-500 text-white'
-                : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
-            }`}
-          >
-            LOLA Color
-          </button>
-          <button
-            onClick={() => setActiveTileLayer('lola_bw')}
-            className={`px-2 py-0.5 rounded text-[11px] font-medium transition ${
-              activeTileLayer === 'lola_bw'
-                ? 'bg-sky-500 text-white'
-                : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
-            }`}
-          >
-            Relief
-          </button>
+
+          {selectedParcel && (
+            <button
+              onClick={handleZoomToLandingBox}
+              className="flex items-center space-x-1 bg-white/90 dark:bg-slate-900/90 text-sky-600 dark:text-sky-300 px-2 py-1 rounded-lg border border-sky-300 dark:border-sky-500/40 text-xs shadow-sm transition hover:bg-slate-50 dark:hover:bg-slate-800"
+              title="Zoom directly into 100m x 100m landing box"
+            >
+              <ZoomIn className="w-3.5 h-3.5 text-sky-500" />
+              <span>Zoom 100m Box</span>
+            </button>
+          )}
         </div>
 
-        {/* Zoom Presets */}
-        <button
-          onClick={handleZoomWholeMoon}
-          className="flex items-center space-x-1 bg-white/90 dark:bg-slate-900/90 text-slate-700 dark:text-slate-300 px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-700/80 text-xs shadow-sm transition hover:bg-slate-50 dark:hover:bg-slate-800"
-          title="Zoom out to whole Moon"
-        >
-          <Globe className="w-3.5 h-3.5 text-sky-500" />
-          <span>Whole Moon</span>
-        </button>
-
+        {/* Right Info: Active Selected Site Badge */}
         {selectedParcel && (
-          <button
-            onClick={handleZoomToLandingBox}
-            className="flex items-center space-x-1 bg-white/90 dark:bg-slate-900/90 text-sky-600 dark:text-sky-300 px-2 py-1 rounded-lg border border-sky-300 dark:border-sky-500/40 text-xs shadow-sm transition hover:bg-slate-50 dark:hover:bg-slate-800"
-            title="Zoom directly into 100m x 100m landing box"
-          >
-            <ZoomIn className="w-3.5 h-3.5 text-sky-500" />
-            <span>Zoom 100m Box</span>
-          </button>
-        )}
-      </div>
-
-      {/* Active Landing Box Banner */}
-      {selectedParcel && (
-        <div className="absolute top-2.5 right-2.5 z-[1000] bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-3 py-1.5 rounded-lg border border-sky-200 dark:border-sky-500/30 text-xs shadow-sm pointer-events-auto flex items-center space-x-2">
-          <Crosshair className="w-4 h-4 text-sky-500 animate-pulse" />
-          <div>
-            <div className="font-semibold text-slate-900 dark:text-white text-[11px] leading-tight">
-              {selectedParcel.name || selectedParcel.id}
-            </div>
-            <div className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
-              100m × 100m Area: {selectedParcel.latitude.toFixed(4)}°, {selectedParcel.longitude.toFixed(4)}°
+          <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-3 py-1.5 rounded-lg border border-sky-200 dark:border-sky-500/30 text-xs shadow-sm pointer-events-auto flex items-center space-x-2 shrink-0">
+            <Crosshair className="w-4 h-4 text-sky-500 animate-pulse shrink-0" />
+            <div>
+              <div className="font-semibold text-slate-900 dark:text-white text-[11px] leading-tight max-w-[200px] sm:max-w-none truncate">
+                {selectedParcel.name || selectedParcel.id}
+              </div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
+                100m × 100m Area: {selectedParcel.latitude.toFixed(4)}°, {selectedParcel.longitude.toFixed(4)}°
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Map Legend */}
       <div className="absolute bottom-2.5 left-2.5 z-[1000] bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700/80 text-[11px] shadow-sm pointer-events-auto flex items-center space-x-3">

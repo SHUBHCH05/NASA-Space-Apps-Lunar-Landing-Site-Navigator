@@ -168,15 +168,34 @@ export function App() {
 
   const handleMapClickCustom = (lat: number, lon: number) => {
     setAutoLockBest(false);
+
+    // Look up elevation from nearest real LOLA candidate parcel
+    let estimatedElevation = 0;
+    let estimatedSlope = 2.4;
+    let estimatedMask = new Array(360).fill(0.6);
+
+    if (lolaGrid?.parcels && lolaGrid.parcels.length > 0) {
+      let minD = Infinity;
+      for (const p of lolaGrid.parcels) {
+        const d = Math.hypot(p.latitude - lat, p.longitude - lon);
+        if (d < minD) {
+          minD = d;
+          estimatedElevation = p.mean_elevation_m;
+          estimatedSlope = p.max_slope_deg;
+          estimatedMask = p.horizon_mask_360;
+        }
+      }
+    }
+
     const customParcel: LolaParcel = {
       id: `SITE_${Math.abs(lat).toFixed(2)}${lat < 0 ? 'S' : 'N'}_${Math.abs(lon).toFixed(2)}${lon < 0 ? 'W' : 'E'}`,
       name: `Custom 100m Site (${lat.toFixed(2)}°, ${lon.toFixed(2)}°)`,
       region: lat < -80 ? 'South Polar Region' : lat > 80 ? 'North Polar Region' : 'Lunar Surface',
       latitude: Number(lat.toFixed(4)),
       longitude: Number(lon.toFixed(4)),
-      mean_elevation_m: 0,
-      max_slope_deg: 2.2,
-      horizon_mask_360: new Array(360).fill(0.6),
+      mean_elevation_m: estimatedElevation,
+      max_slope_deg: estimatedSlope,
+      horizon_mask_360: estimatedMask,
       parcel_size_m: 100.0,
     };
     setSelectedParcel(customParcel);

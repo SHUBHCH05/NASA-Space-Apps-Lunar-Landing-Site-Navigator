@@ -42,7 +42,7 @@ export const MissionControls: React.FC<MissionControlsProps> = ({
             }`}
           >
             <Rocket className="w-3.5 h-3.5 text-sky-500" />
-            <span>CLPS (≤8°, ≥72h Sun)</span>
+            <span>Robotic (≤8°, ≥72h Sun)</span>
           </button>
 
           <button
@@ -54,7 +54,7 @@ export const MissionControls: React.FC<MissionControlsProps> = ({
             }`}
           >
             <UserCheck className="w-3.5 h-3.5 text-emerald-500" />
-            <span>Artemis (≤5°, ≥168h Sun)</span>
+            <span>Crewed (≤5°, ≥168h Sun)</span>
           </button>
 
           <button

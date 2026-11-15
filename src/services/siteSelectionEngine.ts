@@ -18,20 +18,20 @@ import {
 export const MISSION_PROFILES: Record<string, MissionProfile> = {
   clps: {
     id: 'clps',
-    name: 'CLPS Robotic Lander',
-    shortName: 'CLPS Lander',
+    name: 'Robotic Lander Profile',
+    shortName: 'Robotic Lander',
     maxSlopeDeg: 8.0,
     minSunHours: 72,
-    description: 'Commercial Lunar Payload Services robotic lander. Strict 8° tipping limit, 72h minimum continuous sunlight for battery charging.',
+    description: 'Robotic lander configuration. 8° tipping hazard limit, 72h minimum continuous sunlight for battery charging.',
     badgeColor: 'border-blue-500/50 text-blue-400 bg-blue-500/10',
   },
   artemis: {
     id: 'artemis',
-    name: 'Artemis Crewed Lander',
-    shortName: 'Artemis Human',
+    name: 'Crewed Lander Profile',
+    shortName: 'Crewed Lander',
     maxSlopeDeg: 5.0,
     minSunHours: 168,
-    description: 'Artemis Human Landing System (HLS). Stringent 5° astronaut egress safety limit, 168h (7 days) continuous solar power margin.',
+    description: 'Crewed lander configuration. Stringent 5° astronaut egress safety limit, 168h (7 days) continuous solar power margin.',
     badgeColor: 'border-emerald-500/50 text-emerald-400 bg-emerald-500/10',
   },
   custom: {

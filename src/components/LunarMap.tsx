@@ -94,30 +94,45 @@ export const LunarMap: React.FC<LunarMapProps> = ({
         }
       );
       lrocLayer.addTo(map);
-    } else if (activeTileLayer === 'lola_color') {
-      const usgsColorLayer = L.tileLayer.wms(
-        'https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/earth/moon_simp_cyl.map',
-        {
-          layers: 'LOLA_color',
-          format: 'image/jpeg',
-          transparent: false,
-          attribution: 'USGS / NASA LOLA',
-          maxZoom: 12,
-        }
-      );
-      usgsColorLayer.addTo(map);
-    } else if (activeTileLayer === 'lola_bw') {
-      const usgsBwLayer = L.tileLayer.wms(
-        'https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/earth/moon_simp_cyl.map',
-        {
-          layers: 'LOLA_bw',
-          format: 'image/jpeg',
-          transparent: false,
-          attribution: 'USGS / NASA LOLA',
-          maxZoom: 12,
-        }
-      );
-      usgsBwLayer.addTo(map);
+    } else {
+      // USGS Planetary Maps WMS (Moon Simple Cylindrical) supports EPSG:4326
+      // Custom TileLayer to accurately project WebMercator tiles into EPSG:4326 WMS bounding boxes
+      const R_EARTH = 6378137.0;
+      const layerName = activeTileLayer === 'lola_color' ? 'LOLA_color' : 'LOLA_bw';
+      
+      const UsgsWmsTileLayer = L.TileLayer.extend({
+        getTileUrl: function (coords: L.Coords) {
+          const z = coords.z;
+          const x = coords.x;
+          const y = coords.y;
+          const n = Math.pow(2, z);
+
+          // WebMercator tile bounds in meters
+          const minX_m = (x / n) * 2 * Math.PI * R_EARTH - Math.PI * R_EARTH;
+          const maxX_m = ((x + 1) / n) * 2 * Math.PI * R_EARTH - Math.PI * R_EARTH;
+          const maxY_m = Math.PI * R_EARTH - (y / n) * 2 * Math.PI * R_EARTH;
+          const minY_m = Math.PI * R_EARTH - ((y + 1) / n) * 2 * Math.PI * R_EARTH;
+
+          // Convert WebMercator meters to EPSG:4326 Lat/Lon in degrees
+          const minLon = (minX_m / R_EARTH) * (180.0 / Math.PI);
+          const maxLon = (maxX_m / R_EARTH) * (180.0 / Math.PI);
+          const minLat = (2 * Math.atan(Math.exp(minY_m / R_EARTH)) - Math.PI / 2) * (180.0 / Math.PI);
+          const maxLat = (2 * Math.atan(Math.exp(maxY_m / R_EARTH)) - Math.PI / 2) * (180.0 / Math.PI);
+
+          const bbox = `${minLon.toFixed(6)},${minLat.toFixed(6)},${maxLon.toFixed(6)},${maxLat.toFixed(6)}`;
+
+          return `https://planetarymaps.usgs.gov/cgi-bin/mapserv?map=/maps/earth/moon_simp_cyl.map&service=WMS&version=1.1.1&request=GetMap&layers=${layerName}&styles=&format=image/jpeg&srs=EPSG:4326&bbox=${bbox}&width=256&height=256`;
+        },
+      });
+
+      // @ts-expect-error Leaflet dynamic extension
+      const usgsLayer = new UsgsWmsTileLayer('', {
+        attribution: 'USGS / NASA LOLA PDS',
+        maxZoom: 12,
+        noWrap: true,
+      });
+
+      usgsLayer.addTo(map);
     }
   }, [activeTileLayer]);
 

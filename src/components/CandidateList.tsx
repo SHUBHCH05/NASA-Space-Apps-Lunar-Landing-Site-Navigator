@@ -25,6 +25,8 @@ export const CandidateList: React.FC<CandidateListProps> = ({
       const q = searchQuery.toLowerCase();
       return (
         item.parcel.id.toLowerCase().includes(q) ||
+        (item.parcel.name && item.parcel.name.toLowerCase().includes(q)) ||
+        (item.parcel.region && item.parcel.region.toLowerCase().includes(q)) ||
         item.parcel.latitude.toString().includes(q) ||
         item.parcel.longitude.toString().includes(q)
       );

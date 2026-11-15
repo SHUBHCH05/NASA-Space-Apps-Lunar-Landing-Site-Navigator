@@ -47,7 +47,7 @@ export const LunarMap: React.FC<LunarMapProps> = ({
       center: [initialLat, initialLon],
       zoom: 6,
       minZoom: 1,
-      maxZoom: 14,
+      maxZoom: 18,
       zoomControl: false,
       attributionControl: false,
     });
@@ -95,7 +95,8 @@ export const LunarMap: React.FC<LunarMapProps> = ({
         'https://trek.nasa.gov/tiles/Moon/EQ/LRO_WAC_Mosaic_Global_303ppd/1.0.0/default/default028mm/{z}/{y}/{x}.jpg',
         {
           attribution: 'NASA / GSFC / ASU (LROC WAC Global Mosaic)',
-          maxZoom: 12,
+          maxNativeZoom: 7,
+          maxZoom: 18,
           noWrap: true,
         }
       );
@@ -105,7 +106,8 @@ export const LunarMap: React.FC<LunarMapProps> = ({
         'https://trek.nasa.gov/tiles/Moon/EQ/LRO_WAC_Mosaic_Global_303ppd/1.0.0/default/default028mm/{z}/{y}/{x}.jpg',
         {
           attribution: 'ISRO Chandrayaan-2 OHRC / NASA LROC (High Detail Regolith)',
-          maxZoom: 14,
+          maxNativeZoom: 7,
+          maxZoom: 18,
           noWrap: true,
           className: 'filter contrast-125 brightness-95',
         }
@@ -144,7 +146,8 @@ export const LunarMap: React.FC<LunarMapProps> = ({
       // @ts-expect-error Leaflet dynamic extension
       currentLayer = new UsgsWmsTileLayer('', {
         attribution: 'USGS / NASA LOLA PDS',
-        maxZoom: 12,
+        maxNativeZoom: 7,
+        maxZoom: 18,
         noWrap: true,
       });
     }

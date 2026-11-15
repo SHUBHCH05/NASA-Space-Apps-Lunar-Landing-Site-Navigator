@@ -124,9 +124,16 @@ export const CandidateList: React.FC<CandidateListProps> = ({
             >
               {/* ID & Status Dot */}
               <div className="flex items-center space-x-2">
-                <span className="text-[10px] text-slate-400 w-4 text-right">
-                  #{index + 1}
-                </span>
+                <div className="flex items-center space-x-1">
+                  {item.parcel.id === 'CHANDRAYAAN3_SHIV_SHAKTI' && (
+                    <span className="text-[10px] px-1.5 py-0.2 rounded bg-orange-100 dark:bg-orange-950/40 text-orange-700 dark:text-orange-300 font-semibold border border-orange-200 dark:border-orange-500/30">
+                      🇮🇳 ISRO
+                    </span>
+                  )}
+                  <span className="text-[10px] text-slate-400 w-4 text-right">
+                    #{index + 1}
+                  </span>
+                </div>
                 <div>
                   <div className="font-semibold text-slate-800 dark:text-slate-200 flex items-center space-x-1.5">
                     <span className="truncate max-w-[150px]">{item.parcel.name || item.parcel.id}</span>

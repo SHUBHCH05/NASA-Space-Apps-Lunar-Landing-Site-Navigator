@@ -1,19 +1,10 @@
 import React from 'react';
-import { ExternalLink, CheckCircle } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
     <footer className="border-t border-slate-200 dark:border-slate-800/80 bg-white/80 dark:bg-[#070b14] px-4 py-3 mt-auto text-xs text-slate-500 dark:text-slate-400 transition-colors">
-      <div className="max-w-[1920px] mx-auto flex flex-col md:flex-row items-center justify-between gap-2.5">
-        <div className="flex items-center space-x-2">
-          <div className="flex items-center space-x-1 text-emerald-600 dark:text-emerald-400 font-medium">
-            <CheckCircle className="w-3.5 h-3.5" />
-            <span>NASA Space Apps Challenge</span>
-          </div>
-          <span className="text-slate-300 dark:text-slate-700">•</span>
-          <span>Zero-Mock Real Data Standard</span>
-        </div>
-
+      <div className="max-w-[1920px] mx-auto flex flex-col md:flex-row items-center justify-end gap-2.5">
         <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[11px]">
           <span className="text-slate-400 dark:text-slate-500">Official Sources:</span>
           

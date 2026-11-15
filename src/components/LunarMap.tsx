@@ -455,14 +455,22 @@ export const LunarMap: React.FC<LunarMapProps> = ({
         </div>
       </div>
 
-      {/* Coordinate status */}
-      <div className="absolute bottom-2.5 right-2.5 z-[1000] bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-2 py-1 rounded-lg border border-slate-200 dark:border-slate-700/80 text-[11px] font-mono text-slate-600 dark:text-slate-300 pointer-events-none flex items-center space-x-1.5">
-        <Navigation className="w-3 h-3 text-sky-500" />
+      {/* Coordinate and Elevation status */}
+      <div className="absolute bottom-2.5 right-2.5 z-[1000] bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700/80 text-[11px] font-mono text-slate-700 dark:text-slate-200 pointer-events-none flex items-center space-x-2 shadow-sm">
+        <Navigation className="w-3 h-3 text-sky-500 shrink-0" />
         <span>
           {selectedParcel
             ? `${selectedParcel.latitude.toFixed(4)}°, ${selectedParcel.longitude.toFixed(4)}°`
-            : 'Click map to evaluate any spot'}
+            : 'Click map to evaluate spot'}
         </span>
+        {selectedParcel && (
+          <>
+            <span className="text-slate-300 dark:text-slate-700">|</span>
+            <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+              Alt: {selectedParcel.mean_elevation_m > 0 ? `+${selectedParcel.mean_elevation_m}` : selectedParcel.mean_elevation_m}m
+            </span>
+          </>
+        )}
       </div>
 
       {/* Layer Loading Spinner Overlay */}
@@ -471,7 +479,13 @@ export const LunarMap: React.FC<LunarMapProps> = ({
           <div className="flex items-center space-x-2 bg-slate-900/90 text-white border border-slate-700 px-3.5 py-2 rounded-xl shadow-lg text-xs">
             <Loader2 className="w-4 h-4 text-sky-400 animate-spin" />
             <span className="font-medium tracking-wide">
-              Streaming NASA/USGS {activeTileLayer === 'lola_color' ? 'LOLA Color' : activeTileLayer === 'lola_bw' ? 'Relief' : 'LROC'} Tiles...
+              {activeTileLayer === 'ohrc'
+                ? 'Streaming ISRO Chandrayaan-2 OHRC Tiles...'
+                : activeTileLayer === 'lola_color'
+                ? 'Streaming NASA/USGS LOLA Color Tiles...'
+                : activeTileLayer === 'lola_bw'
+                ? 'Streaming NASA/USGS Relief Tiles...'
+                : 'Streaming NASA LROC Tiles...'}
             </span>
           </div>
         </div>

@@ -46,10 +46,6 @@ export const Header: React.FC<HeaderProps> = ({
               <span className="text-[11px] font-semibold text-sky-600 dark:text-sky-400">
                 NASA Space Apps
               </span>
-              <span className="text-slate-300 dark:text-slate-700">•</span>
-              <span className="text-[11px] text-slate-500 dark:text-slate-400">
-                LOLA South Pole (85°S-90°S)
-              </span>
             </div>
             <h1 className="text-sm font-semibold tracking-tight text-slate-900 dark:text-white">
               Lunar Landing Site Navigator

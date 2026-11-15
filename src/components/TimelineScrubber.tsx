@@ -162,6 +162,13 @@ export const TimelineScrubber: React.FC<TimelineScrubberProps> = ({
             Artemis III Target
           </button>
           <button
+            onClick={() => onDateChange(new Date('2023-08-23T12:34:00Z'))}
+            className="px-2 py-0.5 rounded border border-orange-200 dark:border-orange-500/30 bg-orange-50 dark:bg-orange-950/20 text-orange-700 dark:text-orange-400 hover:bg-orange-100 transition"
+            title="ISRO Chandrayaan-3 Historic Touchdown at Shiv Shakti Point (Aug 23, 2023 12:34 UTC)"
+          >
+            🇮🇳 Chandrayaan-3 Landing
+          </button>
+          <button
             onClick={() => onDateChange(new Date())}
             className="px-2 py-0.5 rounded border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:text-sky-500 transition"
           >

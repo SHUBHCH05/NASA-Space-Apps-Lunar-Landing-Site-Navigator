@@ -37,6 +37,17 @@ export const Footer: React.FC = () => {
             <span>NASA LOLA (PDS)</span>
             <ExternalLink className="w-2.5 h-2.5" />
           </a>
+
+          <a
+            href="https://pradan.issdc.gov.in/"
+            target="_blank"
+            rel="noreferrer"
+            className="text-orange-600 dark:text-orange-400 hover:underline flex items-center space-x-0.5 transition"
+            title="ISRO Chandrayaan-2/3 Science Data (ISSDC / PRADAN)"
+          >
+            <span>ISRO ISSDC (Chandrayaan-2/3)</span>
+            <ExternalLink className="w-2.5 h-2.5" />
+          </a>
         </div>
       </div>
     </footer>

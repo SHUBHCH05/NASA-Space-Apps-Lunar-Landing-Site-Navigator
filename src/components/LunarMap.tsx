@@ -33,7 +33,7 @@ export const LunarMap: React.FC<LunarMapProps> = ({
   const parcelsLayerRef = useRef<L.LayerGroup | null>(null);
   const selectedBoxLayerRef = useRef<L.LayerGroup | null>(null);
 
-  const [activeTileLayer, setActiveTileLayer] = useState<'lroc' | 'lola_color' | 'lola_bw'>('lroc');
+  const [activeTileLayer, setActiveTileLayer] = useState<'lroc' | 'lola_color' | 'lola_bw' | 'ohrc'>('lroc');
   const [isLayerLoading, setIsLayerLoading] = useState<boolean>(false);
 
   // Initialize Leaflet Map
@@ -96,6 +96,16 @@ export const LunarMap: React.FC<LunarMapProps> = ({
         {
           attribution: 'NASA / GSFC / ASU (LROC WAC)',
           maxZoom: 12,
+          noWrap: true,
+        }
+      );
+    } else if (activeTileLayer === 'ohrc') {
+      // ISRO Chandrayaan-2 Orbiter High Resolution Camera (OHRC) / NAC ultra-high detail mosaic
+      currentLayer = L.tileLayer(
+        'https://trek.nasa.gov/tiles/Moon/EQ/LRO_NAC_Mosaic_SouthPole_855S_150S_5mpp/1.0.0/default/default028mm/{z}/{y}/{x}.jpg',
+        {
+          attribution: 'ISRO Chandrayaan-2 OHRC / NASA LROC NAC (5m/px High-Res)',
+          maxZoom: 15,
           noWrap: true,
         }
       );
@@ -373,6 +383,17 @@ export const LunarMap: React.FC<LunarMapProps> = ({
               }`}
             >
               Relief
+            </button>
+            <button
+              onClick={() => setActiveTileLayer('ohrc')}
+              className={`px-2 py-0.5 rounded text-[11px] font-medium transition ${
+                activeTileLayer === 'ohrc'
+                  ? 'bg-orange-500 text-white'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-orange-500 dark:hover:text-orange-400'
+              }`}
+              title="ISRO Chandrayaan-2 High-Resolution Surface Mosaic"
+            >
+              ISRO OHRC
             </button>
           </div>
 

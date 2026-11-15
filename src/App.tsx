@@ -9,6 +9,7 @@ import { CandidateList } from './components/CandidateList';
 import { HorizonsVerifier } from './components/HorizonsVerifier';
 import { DataIngestionModal } from './components/DataIngestionModal';
 import { QuickStartGuide } from './components/QuickStartGuide';
+import { SolarElevationChart } from './components/SolarElevationChart';
 import { Footer } from './components/Footer';
 
 import {
@@ -276,11 +277,19 @@ export function App() {
               />
             </div>
 
-            <TopocentricRadar
-              evaluation={selectedEvaluation}
-              parcel={selectedParcel}
-              theme={theme}
-            />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <TopocentricRadar
+                evaluation={selectedEvaluation}
+                parcel={selectedParcel}
+                theme={theme}
+              />
+              <SolarElevationChart
+                currentDate={currentDate}
+                parcel={selectedParcel}
+                sunEphem={sunEphem}
+                earthEphem={earthEphem}
+              />
+            </div>
           </div>
 
           {/* Right Column: Telemetry HUD & Candidates List */}

@@ -9,6 +9,8 @@ import {
   CheckCircle2,
   AlertTriangle,
   XCircle,
+  Droplets,
+  Activity,
 } from 'lucide-react';
 import { ParcelEvaluation, MissionProfile } from '../types/lunar';
 
@@ -42,6 +44,10 @@ export const TelemetryPanel: React.FC<TelemetryPanelProps> = ({
     hoursUntilEarthset,
     score,
     reasons,
+    nearestPsrName,
+    nearestPsrDistKm,
+    chandrayaanIceProbability,
+    chandrayaanRoughnessScore,
   } = evaluation;
 
   const statusBadge =
@@ -206,6 +212,44 @@ export const TelemetryPanel: React.FC<TelemetryPanelProps> = ({
           <span className="font-semibold text-slate-800 dark:text-slate-200">
             {hoursUntilEarthset}h
           </span>
+        </div>
+      </div>
+
+      {/* NASA & ISRO Lunar Volatiles & Radar Science Section */}
+      <div className="bg-slate-50/70 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 p-2.5 rounded-lg text-xs space-y-1.5">
+        <div className="flex items-center justify-between text-[11px] font-semibold text-slate-700 dark:text-slate-300">
+          <span className="flex items-center space-x-1">
+            <Droplets className="w-3.5 h-3.5 text-sky-500" />
+            <span>Polar Volatiles & ISRO DFSAR Radar</span>
+          </span>
+          <span className="text-[10px] font-mono text-orange-600 dark:text-orange-400">
+            ISRO Chandrayaan-2/3
+          </span>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2 text-[11px]">
+          <div className="bg-white/80 dark:bg-slate-950/60 p-1.5 rounded border border-slate-200/60 dark:border-slate-800/60">
+            <span className="text-[10px] text-slate-400 block">Nearest Ice PSR</span>
+            <div className="font-medium text-slate-800 dark:text-slate-200 truncate" title={nearestPsrName}>
+              {nearestPsrName || 'Polar Cold Trap'}
+            </div>
+            <span className="text-[10px] text-sky-600 dark:text-sky-400 font-semibold">
+              {nearestPsrDistKm !== undefined ? `${nearestPsrDistKm} km away` : 'N/A'}
+            </span>
+          </div>
+
+          <div className="bg-white/80 dark:bg-slate-950/60 p-1.5 rounded border border-slate-200/60 dark:border-slate-800/60">
+            <div className="flex justify-between items-center text-[10px] text-slate-400">
+              <span>DFSAR Ice Confidence</span>
+              <Activity className="w-3 h-3 text-orange-500" />
+            </div>
+            <div className="font-semibold text-orange-600 dark:text-orange-400">
+              {chandrayaanIceProbability ?? 0}% Probability
+            </div>
+            <span className="text-[10px] text-slate-400 block">
+              Regolith: <strong className="text-slate-700 dark:text-slate-300">{chandrayaanRoughnessScore || 'Smooth'}</strong>
+            </span>
+          </div>
         </div>
       </div>
 

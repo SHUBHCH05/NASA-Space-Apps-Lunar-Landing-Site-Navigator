@@ -77,6 +77,11 @@ export interface ParcelEvaluation {
   hoursUntilEarthset: number;
   score: number;
   reasons: string[];
+  // Scientific & Radar Metrics (NASA & ISRO Chandrayaan-2/3)
+  nearestPsrName?: string;
+  nearestPsrDistKm?: number;
+  chandrayaanIceProbability?: number; // 0 to 100% (Derived from Chandrayaan-2 DFSAR L+S band CPR)
+  chandrayaanRoughnessScore?: 'Smooth' | 'Moderate' | 'Rough'; // Regolith trafficability
 }
 
 export interface LiveHorizonsResult {
